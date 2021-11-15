@@ -1,0 +1,450 @@
+@import 'variables';
+
+@function toRem($value) {
+  @return $value / $baseFontSize + rem;
+}
+
+//@mixin font($font-family, $font-file) {
+//  @font-face {
+//    font-family: $font-family;
+//    src: url($font-file+ '.eot');
+//    src: url($font-file+ '.eot?#iefix') format('embedded-opentype'),
+//  url($font-file+'.woff') format('woff'),
+//  url($font-file+'.ttf') format('truetype'),
+//  url($font-file+'.svg#'+$font-family) format('svg');
+//    font-weight: normal;
+//    font-style: normal;
+//  }
+//}
+
+
+@mixin DisplayFlex() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin DisplayFlexCustom($direction: null, $justifyContent: null, $alignItems: null) {
+  @include DisplayFlex();
+  @if ($direction != null) {
+    flex-direction: $direction
+  }
+  @if ($justifyContent != null) {
+    justify-content: $justifyContent
+  }
+  @if ($alignItems != null) {
+    align-items: $alignItems
+  }
+}
+
+@mixin CustomAnchor($color) {
+  color: $color;
+  text-decoration: none;
+}
+
+@mixin PlaceHolder($color, $fontSize) {
+  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: $color;
+    font-size: $fontSize;
+  }
+  &::-moz-placeholder { /* Firefox 19+ */
+    color: $color;
+    font-size: $fontSize;
+  }
+  &:-ms-input-placeholder { /* IE 10+ */
+    color: $color;
+    font-size: $fontSize;
+  }
+  &:-moz-placeholder { /* Firefox 18- */
+    color: $color;
+    font-size: $fontSize;
+  }
+}
+
+@mixin Transition($time) {
+  -webkit-transition: all $time linear;
+  -moz-transition: all $time linear;
+  -ms-transition: all $time linear;
+  -o-transition: all $time linear;
+  transition: all $time linear;
+}
+
+@mixin Transform($value) {
+  -webkit-transform: $value;
+  -moz-transform: $value;
+  -ms-transform: $value;
+  -o-transform: $value;
+  transform: $value;
+}
+
+@mixin BoxSizing() {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@mixin Border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin Border-top-left-radius($radius) {
+  -webkit-border-top-left-radius: $radius;
+  -moz-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+}
+
+@mixin Border-top-right-radius($radius) {
+  -webkit-border-top-right-radius: $radius;
+  -moz-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+@mixin Border-bottom-left-radius($radius) {
+  -webkit-border-bottom-left-radius: $radius;
+  -moz-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin Border-bottom-right-radius($radius) {
+  -webkit-border-bottom-right-radius: $radius;
+  -moz-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin Box-shadow-single($value) {
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  box-shadow: $value;
+}
+
+@mixin FlexWrap($value) {
+  flex-wrap: $value;
+  -ms-flex-wrap: $value;
+  -webkit-flex-wrap: $value;
+}
+
+@mixin ButtonTemplateWithOneText($bgColor, $color, $height, $padding, $fsize, $fweight, $bradius) {
+  background: $bgColor;
+  color: $color;
+  height: $height;
+  padding: 0 $padding;
+  font-size: $fsize;
+  font-weight: $fweight;
+  @include DisplayFlexCustom(null, center, center);
+  @if ($bradius != null) {
+    @include Border-radius($bradius);
+  }
+  &:active {
+    padding: 0 $padding;
+    background: $bgColor;
+    @if ($bradius != null) {
+      @include Border-radius($bradius);
+    }
+  }
+}
+
+@mixin ScrollBarCustom($trackWidth, $trackColor, $trackRadius, $backgroundColor) {
+  &::-webkit-scrollbar {
+    width: $trackWidth;
+    background-color: $backgroundColor;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 $trackRadius rgba(0, 0, 0, 0.1);
+    border-radius: $trackRadius;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: $trackColor;
+  }
+}
+
+
+@mixin TextOverflowEllipsis() {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+}
+
+@mixin MultilineTextOverflowEllipsis($font-size, $line-height, $lines-to-show) {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin ResponsivePaddingLeft($value, $allowMinimum: false) {
+  padding-left: $value;
+
+  @media only screen and (max-width: 1200px) {
+    padding-left: $value / 2;
+  }
+  @if ($allowMinimum == true) {
+    @media only screen and (max-width: 1024px) {
+      padding-left: $value / 3;
+    }
+  }
+}
+
+@mixin ResponsivePaddingRight($value, $allowMinimum: false) {
+  padding-right: $value;
+  @media only screen and (max-width: 1200px) {
+    padding-right: $value / 2;
+  }
+  @if ($allowMinimum == true) {
+    @media only screen and (max-width: 1024px) {
+      padding-right: $value / 3;
+    }
+  }
+}
+
+@mixin ResponsivePaddingTop($value, $allowMinimum: false) {
+  padding-top: $value;
+
+  @media only screen and (max-width: 1200px) {
+    padding-top: $value / 2;
+  }
+  @if ($allowMinimum == true) {
+    @media only screen and (max-width: 1024px) {
+      padding-top: $value / 3;
+    }
+  }
+}
+
+@mixin ResponsivePaddingBottom($value, $allowMinimum: false) {
+  padding-bottom: $value;
+  @media only screen and (max-width: 1200px) {
+    padding-bottom: $value / 2;
+  }
+  @if ($allowMinimum == true) {
+    @media only screen and (max-width: 1024px) {
+      padding-bottom: $value / 3;
+    }
+  }
+}
+
+@mixin ResponsiveMarginLeft($value, $allowMinimum: false) {
+  margin-left: $value;
+
+  @media only screen and (max-width: 1200px) {
+    margin-left: $value / 2;
+  }
+  @if ($allowMinimum == true) {
+    @media only screen and (max-width: 1024px) {
+      margin-left: $value / 3;
+    }
+  }
+}
+
+@mixin ResponsiveMarginRight($value, $allowMinimum: false) {
+  margin-right: $value;
+  @media only screen and (max-width: 1200px) {
+    margin-right: $value / 2;
+  }
+  @if ($allowMinimum == true) {
+    @media only screen and (max-width: 1024px) {
+      margin-right: $value / 3;
+    }
+  }
+}
+
+@mixin ResponsiveMarginTop($value, $allowMinimum: false) {
+  margin-top: $value;
+
+  @media only screen and (max-width: 1200px) {
+    margin-top: $value / 2;
+  }
+  @if ($allowMinimum == true) {
+    @media only screen and (max-width: 1024px) {
+      margin-top: $value / 3;
+    }
+  }
+}
+
+@mixin ResponsiveMarginBottom($value, $allowMinimum: false) {
+  margin-bottom: $value;
+  @media only screen and (max-width: 1200px) {
+    margin-bottom: $value / 2;
+  }
+  @if ($allowMinimum == true) {
+    @media only screen and (max-width: 1024px) {
+      margin-bottom: $value / 3;
+    }
+  }
+}
+
+@mixin DeviceMarginTop($value) {
+  margin-top: $value;
+  @media only screen and (max-width: 960px) {
+    margin-top: $value / 2;
+  }
+  @media only screen and (max-width: 768px) {
+    margin-top: $value / 3;
+  }
+}
+
+@mixin DeviceMarginBottom($value) {
+  margin-bottom: $value;
+  @media only screen and (max-width: 960px) {
+    margin-bottom: $value / 2;
+  }
+  @media only screen and (max-width: 768px) {
+    margin-bottom: $value / 3;
+  }
+}
+
+@mixin DevicePaddingTop($value) {
+  padding-top: $value;
+  @media only screen and (max-width: 960px) {
+    padding-top: $value / 2;
+  }
+  @media only screen and (max-width: 768px) {
+    padding-top: $value / 3;
+  }
+}
+
+@mixin DevicePaddingBottom($value) {
+  padding-bottom: $value;
+  @media only screen and (max-width: 960px) {
+    padding-bottom: $value / 2;
+  }
+  @media only screen and (max-width: 768px) {
+    padding-bottom: $value / 3;
+  }
+}
+
+@mixin DevicePaddingLeft($value) {
+  padding-left: $value;
+  @media only screen and (max-width: 960px) {
+    padding-left: $value / 2;
+  }
+  @media only screen and (max-width: 768px) {
+    padding-left: $value / 3;
+  }
+}
+
+@mixin DevicePaddingRight($value) {
+  padding-right: $value;
+  @media only screen and (max-width: 960px) {
+    padding-right: $value / 2;
+  }
+  @media only screen and (max-width: 768px) {
+    padding-right: $value / 3;
+  }
+}
+
+@mixin CustomTagA($linkState, $hoverState: null, $visitedState: null) {
+  &:link {
+    color: $linkState
+  }
+  @if ($hoverState != null) {
+    &:hover {
+      color: $hoverState
+    }
+  } @else {
+    &:hover {
+      color: $linkState
+    }
+  }
+  @if ($hoverState != null) {
+    &:visited {
+      color: $visitedState
+    }
+  } @else {
+    &:visited {
+      color: $linkState
+    }
+  }
+}
+
+@mixin AbsolutePositioning() {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  @include Transform(translate(-50%, -50%));
+}
+
+@mixin IsolatedSection() {
+  float: left;
+  width: 100%;
+}
+
+
+@mixin BackgroundSize($size) {
+  -webkit-background-size: $size;
+  background-size: $size;
+}
+
+@mixin Box-shadow($color, $thickness) {
+  -webkit-box-shadow: -$thickness -$thickness 0 0 $color,
+  $thickness $thickness 0 0 $color,
+  $thickness $thickness 0 0 $color,
+  -$thickness $thickness 0 0 $color;
+
+  -moz-box-shadow: -$thickness -$thickness 0 0 $color,
+  $thickness $thickness 0 0 $color,
+  $thickness -$thickness 0 0 $color,
+  -$thickness $thickness 0 0 $color;
+
+  box-shadow: -4px -4px 0 0 $color,
+  4px 4px 0 0 $color,
+  -4px 4px 0 0 $color,
+  4px -4px 0 0 $color;
+}
+
+@mixin Field() {
+  border: 1px solid #ACB6C3;
+  @include PlaceHolder(#6B7683, toRem(16));
+  @include Transition(.2s);
+  @include Border-radius(3px);
+  background: #E7FFFA;
+  &:hover {
+    @include Box-shadow(#EAEDF8, 4px);
+    border: 1px solid #A8A8AC;
+  }
+  &:focus {
+    // @include Box-shadow(#CCEEFF, 4px);
+    @include Box-shadow(#D6F2EC, 4px);
+    // border: 1px solid #00AAFF;
+    background: #fff;
+  }
+  &:disabled {
+    color: #ACB5BA;
+    background-color: #F3F7FA;
+  }
+}
+
+@mixin HoveredCheckbox() {
+  @include Box-shadow(#EAEDF8, 4px);
+  border: 1px solid #A8A8AC;
+}
+
+@mixin TransformY() {
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+@mixin SelectedCheckbox() {
+  @include Box-shadow(#CCEEFF, 4px);
+  border: 1px solid #00AAFF;
+}
+
+@mixin FieldWrapper() {
+  position: relative;
+  width: 100%;
+}
+

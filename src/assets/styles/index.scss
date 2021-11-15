@@ -1,0 +1,11 @@
+// importing configurations files and shared styles
+@import "shared/reset";
+@import "shared/mixins";
+@import "shared/recources";
+@import "shared/variables";
+// importing global style
+@import "global";
+// importing module styles
+@import "modules/home-page";
+@import "modules/other";
+
