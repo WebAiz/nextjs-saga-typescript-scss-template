@@ -26,12 +26,23 @@ const Form: React.FC = () => {
 	});
 	const [isValid, setIsValid] = useState(false);
 	const changeHandler = (value: string, field: string) => {
-		setInputValue({
-			...input,
-			[field]: {
-				value: value,
-			},
-		});
+		//TODO apply condition for phone
+		// if (field === "phone") {
+		// 	if (value.length > 10 || value[0] === "0") return;
+		// 	if (phoneErrorTxt) clearUserPhoneExistErrorAction();
+		// 	if (value.length === 10) {
+		// 		if (!phoneErrorTxt)
+		// 			signUpUserPhoneExistAction({ phone: +value });
+		// 	}
+		// }
+
+        // TODO btter apply lodash library
+        setInputValue({
+            ...input,
+            [field]: { ...input.password,
+                value: value,
+            },
+        });
 		setIsValid(REGS[field as keyof REGEX].test(value));
 	};
 	return (
